@@ -3,16 +3,13 @@ let express = require('express');
 let app = express();
 let http = require('http').Server(app);
 let io = require('socket.io')(http);
-let user = require('./app/user');
+let User = require('./app/user').User;
 let users = {};
 
-
-let tfitz237 = new user.User({id:'1234'});
-
 io.on('connection', function(socket) {
-    users[socket.id] = new user.User(socket);
-    console.log(users);
+    users[socket.id] = new User(socket);
 });
+
 app.use('/', express.static('public'));
 
 

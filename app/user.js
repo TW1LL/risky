@@ -1,10 +1,14 @@
 "use strict"
 
-
 class User {
     constructor(socket) {
-        this.id = socket.id;
-        this.socket = socket;
+        if (socket) {
+            this.type = 'socket';
+            this.id = socket.id;
+            this.socket = socket;
+        } else {
+            this.type = 'rest';
+        }
     }
     get nickname() {
         return this.nick;
