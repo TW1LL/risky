@@ -11,12 +11,12 @@ describe('Territory', function() {
         it('returns dice results', function() {
             Eastern_Australia.units = 4;
             Western_Australia.units = 2;
-            Ural.units = 2;
             let results = Eastern_Australia.attack(Western_Australia,3,1);
             assert.isArray(results);
-
         });
         it('returns false when territory is not in range', function() {
+            Eastern_Australia.units = 4;
+            Ural.units = 2;
             assert.isFalse(Eastern_Australia.attack(Ural,3,1));
         });
         it('returns false when there is not enough units to attack with', function() {

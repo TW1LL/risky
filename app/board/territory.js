@@ -7,17 +7,14 @@ class Territory {
         this.name = board.territory(id)['name'];
         this.continent = board.getContinentFromTerritory(id);
         this.units = 0;
+        this.user = null;
     }
     get owner() {
         return this.user;
     }
-
     set owner(owner) {
-        if (owner) {
             this.user = owner;
-        }
     }
-
     attack(territory, units, count) {
         if(this.board.verifyAttack(this.id, territory.id)) {
             if(!this.verifyAttack(territory)) {
@@ -48,7 +45,6 @@ class Territory {
         }
         return false;
     }
-
     rollAttack(units) {
         let rtn = [];
         if (units >= this.units) {
@@ -68,11 +64,9 @@ class Territory {
         rtn.sort((a,b) => b - a);
         return rtn;
     }
-
     verifyAttack(territory) {
         return (territory.units != 0 && this.units > 1);
     }
-
     fortify(territory, units) {
         if (this.board.verifyFortify(this.id, territory.id)) {
             if (this.verifyFortify(territory, units)) {
@@ -83,18 +77,18 @@ class Territory {
         }
         return false;
     }
-
     verifyFortify(territory, units) {
-        return (units < this.units && this.owner == territory.owner);
+        return (units < this.units && this.verifyOwner(territory.owner));
     }
-
     loseUnit(count) {
         this.units -= count;
     }
     gainUnit(count) {
         this.units += count;
     }
-
+    verifyOwner(user) {
+        return user == this.owner;
+    }
 }
 
 exports.Territory = Territory;
