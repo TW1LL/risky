@@ -20,7 +20,7 @@ class Territory {
 
     attack(territory, units, count) {
         if(this.board.verifyAttack(this.id, territory.id)) {
-            if(territory.units == 0 || this.units == 1) {
+            if(!this.verifyAttack(territory)) {
                 return false;
             }
             let results = [];
@@ -45,41 +45,54 @@ class Territory {
                 count--;
             }
             return results;
-        } else {
-            return false;
         }
+        return false;
     }
 
     rollAttack(units) {
         let rtn = [];
-        if(units > 2) {
-            rtn =  [Math.floor(Math.random() * 6) + 1, Math.floor(Math.random() * 6) + 1, Math.floor(Math.random() * 6) + 1];
-        } else if (units > 1) {
-            rtn = [Math.floor(Math.random() * 6) + 1, Math.floor(Math.random() * 6) + 1];
-        } else {
-            rtn = [Math.floor(Math.random() * 6) + 1];
+        if (units >= this.units) {
+            units = this.units - 1;
+        }
+        for (var i = 1; (i <= units); i++) {
+            rtn.push(Math.floor(Math.random() * 6) + 1);
         }
         rtn.sort((a,b) => b - a);
         return rtn;
     }
     rollDefend() {
         let rtn = [];
-        if(this.units > 1) {
-            rtn =  [Math.floor(Math.random() * 6) + 1, Math.floor(Math.random() * 6) + 1];
-        } else {
-            rtn = [Math.floor(Math.random() * 6) + 1];
+        for (var i = 1; i <= this.units; i++) {
+            rtn.push(Math.floor(Math.random() * 6) + 1);
         }
         rtn.sort((a,b) => b - a);
         return rtn;
     }
 
+    verifyAttack(territory) {
+        return (territory.units != 0 && this.units > 1);
+    }
 
     fortify(territory, units) {
+        if (this.board.verifyFortify(this.id, territory.id)) {
+            if (this.verifyFortify(territory, units)) {
+                this.loseUnit(units);
+                territory.gainUnit(units);
+                return true;
+            }
+        }
+        return false;
+    }
 
+    verifyFortify(territory, units) {
+        return (units < this.units && this.owner == territory.owner);
     }
 
     loseUnit(count) {
         this.units -= count;
+    }
+    gainUnit(count) {
+        this.units += count;
     }
 
 }
