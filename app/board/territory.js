@@ -1,9 +1,9 @@
 "use strict"
 
 class Territory {
-    constructor(name, continent) {
-        this.name = name;
-        this.continent = continent;
+    constructor(boardData, continent) {
+        this.name = boardData.name;
+        this.continent = boardData;
         this.units = 0;
     }
     get owner() {
@@ -29,3 +29,5 @@ class Territory {
     }
 
 }
+
+exports.Territory = Territory;

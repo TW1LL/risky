@@ -1,0 +1,300 @@
+{
+    "name": "default",
+    "title": "Default Map",
+    "image": "default_map.png",
+    "player_max": "10",
+    "continents": [
+        {
+            "id": "0",
+            "name": "Australia",
+            "reserves": "2",
+            "territories": ["0","1","2","3"]
+
+        },
+        {
+            "id": "1",
+            "name": "South America",
+            "reserves": "2",
+            "territories": ["29","30","31","32"]
+
+        },
+        {
+            "id": "2",
+            "name": "Africa",
+            "reserves": "3",
+            "territories": ["23","24","25","26","27","28"]
+        },
+        {
+            "id": "3",
+            "name": "Europe",
+            "reserves": "5",
+            "territories": ["16","17","18","19","20","21","22"]
+        },
+        {
+            "id": "4",
+            "name": "North America",
+            "reserves": "5",
+            "territories": ["33","34","35","36","37","38","39","40","41"]
+        },
+        {
+            "id": "5",
+            "name": "Asia",
+            "reserves": "7",
+            "territories": ["4","5","6","7","8","9","10","11","12","13","14","15"]
+        }
+    ],
+    "territories": [
+        {
+            "id": "0",
+            "name": "Eastern Australia",
+            "attack": ["1","2"],
+            "fortify": ["1","2"]
+        },
+        {
+            "id": "1",
+            "name": "Western Australia",
+            "attack": ["0","2","3"],
+            "fortify": ["0","2","3"]
+        },
+        {
+            "id": "2",
+            "name": "New Guinea",
+            "attack": ["0","1","3"],
+            "fortify": ["0","1","3"]
+        },
+        {
+            "id": "3",
+            "name": "Indonesia",
+            "attack": ["0","1","2"],
+            "fortify": ["0","1","2"]
+        },
+        {
+            "id": "4",
+            "name": "Siam",
+            "attack": ["2","3","5","6"],
+            "fortify": ["2","3","5","6"]
+        },
+        {
+            "id": "5",
+            "name": "China",
+            "attack": ["4","6","7","12","13","14"],
+            "fortify": ["4","6","7","12","13","14"]
+        },
+        {
+            "id": "6",
+            "name": "India",
+            "attack": ["4","5","14","15"],
+            "fortify": ["4","5","14","15"]
+        },
+        {
+            "id": "7",
+            "name": "Mongolia",
+            "attack": ["5","8","9","10","12"],
+            "fortify": ["5","8","9","10","12"]
+        },
+        {
+            "id": "8",
+            "name": "Japan",
+            "attack": ["7","10"],
+            "fortify": ["7","10"]
+        },
+        {
+            "id": "9",
+            "name": "Irkutsk",
+            "attack": ["7","8","10","11","12"],
+            "fortify": ["7","8","10","11","12"]
+        },
+        {
+            "id": "10",
+            "name": "Kamchatka",
+            "attack": ["7","8","9","11","39"],
+            "fortify": ["7","8","9","11","39"]
+        },
+        {
+            "id": "11",
+            "name": "Yakutsk",
+            "attack": ["9","10","12"],
+            "fortify": ["9","10","12"]
+        },
+        {
+            "id": "12",
+            "name": "Siberia",
+            "attack": ["5","7","9","13"],
+            "fortify": ["5","7","9","13"]
+        },
+        {
+            "id": "13",
+            "name": "Ural",
+            "attack": ["5","12","14","16"],
+            "fortify": ["5","12","14","16"]
+        },
+        {
+            "id": "14",
+            "name": "Afghanistan",
+            "attack": ["5","6","13","15","16"],
+            "fortify": ["5","6","13","15","16"]
+        },
+        {
+            "id": "15",
+            "name": "Middle East",
+            "attack": ["7","14","16","24","25"],
+            "fortify": ["7","14","16","24","25"]
+        },
+        {
+            "id": "16",
+            "name": "Ukraine",
+            "attack": ["17","18","19"],
+            "fortify": ["17","18","19"]
+        },
+        {
+            "id": "17",
+            "name": "Scandinavia",
+            "attack": ["16","18","20","21"],
+            "fortify": ["16","18","20","21"]
+        },
+        {
+            "id": "18",
+            "name": "Northern Europe",
+            "attack": ["16","17","19","21","22"],
+            "fortify": ["16","17","19","21","22"]
+        },
+        {
+            "id": "19",
+            "name": "Southern Europe",
+            "attack": ["15","16","18","22","23","24"],
+            "fortify": ["15","16","18","22","23","24"]
+        },
+        {
+            "id": "20",
+            "name": "Iceland",
+            "attack": ["17","18","21","41"],
+            "fortify": ["17","18","21","41"]
+        },
+        {
+            "id": "21",
+            "name": "Great Britain",
+            "attack": ["17","18","20","22"],
+            "fortify": ["17","18","20","22"]
+        },
+        {
+            "id": "22",
+            "name": "Western Europe",
+            "attack": ["18","19","21","23"],
+            "fortify": ["18","19","21","23"]
+        },
+        {
+            "id": "23",
+            "name": "North Africa",
+            "attack": ["19","22","24","25","26","29"],
+            "fortify": ["19","22","24","25","26","29"]
+        },
+        {
+            "id": "24",
+            "name": "Egypt",
+            "attack": ["15","19","25"],
+            "fortify": ["15","19","25"]
+        },
+        {
+            "id": "25",
+            "name": "East Africa",
+            "attack": ["15","23","24","26","27","28"],
+            "fortify": ["15","23","24","26","27","28"]
+        },
+        {
+            "id": "26",
+            "name": "Congo",
+            "attack": ["23","25","27"],
+            "fortify": ["23","25","27"]
+        },
+        {
+            "id": "27",
+            "name": "South Africa",
+            "attack": ["25","26","28"],
+            "fortify": ["25","26","28"]
+        },
+        {
+            "id": "28",
+            "name": "Madagascar",
+            "attack": ["25","27"],
+            "fortify": ["25","27"]
+        },
+        {
+            "id": "29",
+            "name": "Brazil",
+            "attack": ["23","30","31"],
+            "fortify": ["23","30","31"]
+        },
+        {
+            "id": "30",
+            "name": "Argentina",
+            "attack": ["29","31"],
+            "fortify": ["29","31"]
+        },
+        {
+            "id": "31",
+            "name": "Peru",
+            "attack": ["29","30","32"],
+            "fortify": ["29","30","32"]
+        },
+        {
+            "id": "32",
+            "name": "Venezuela",
+            "attack": ["29","30","31","33"],
+            "fortify": ["29","30","31","33"]
+        },
+        {
+            "id": "33",
+            "name": "Central America",
+            "attack": ["32","33","34"],
+            "fortify": ["32","33","34"]
+        },
+        {
+            "id": "34",
+            "name": "Western United States",
+            "attack": ["33","35","36","39"],
+            "fortify": ["33","35","36","39"]
+        },
+        {
+            "id": "35",
+            "name": "Eastern United States",
+            "attack": ["33","34","37","38"],
+            "fortify": ["33","34","37","38"]
+        },
+        {
+            "id": "36",
+            "name": "Alberta",
+            "attack": ["34","37","40"],
+            "fortify": ["34","37","40"]
+        },
+        {
+            "id": "37",
+            "name": "Ontario",
+            "attack": ["35","36","38"],
+            "fortify": ["35","36","38"]
+        },
+        {
+            "id": "38",
+            "name": "Quebec",
+            "attack": ["35","37","41"],
+            "fortify": ["35","37","41"]
+        },
+        {
+            "id": "39",
+            "name": "Alaska",
+            "attack": ["10","34","36","40"],
+            "fortify": ["10","34","36","40"]
+        },
+        {
+            "id": "40",
+            "name": "Northwest Territory",
+            "attack": ["36","37","39","41"],
+            "fortify": ["36","37","39","41"]
+        },
+        {
+            "id": "41",
+            "name": "Greenland",
+            "attack": ["20","38","40"],
+            "fortify": ["20","38","40"]
+        }
+    ]
+}

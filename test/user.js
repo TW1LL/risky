@@ -2,14 +2,14 @@
 let assert = require('chai').assert;
 describe('User', function() {
     let User = require('../app/user').User;
-        describe('constructor', function() {
+        describe('#constructor()', function() {
             it('will give a User.type based on construction parameters', function() {
                 let usr = new User();
                 assert.equal('rest', usr.type);
                 usr = new User({id: 'random'});
                 assert.equal('socket', usr.type);
             });
-            
+
             describe('socket', function() {
                 it('when User.type == socket, User.socket must be a valid socket.io object', function() {
                     let usr = new User({id: 'random'});
