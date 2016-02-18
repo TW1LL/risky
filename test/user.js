@@ -6,8 +6,6 @@ describe('User', function() {
             it('will give a User.type based on construction parameters', function() {
                 let usr = new User();
                 assert.equal('rest', usr.type);
-                usr = new User({id: 'random'});
-                assert.equal('socket', usr.type);
             });
 
             describe('socket', function() {

@@ -1,8 +1,19 @@
 "use strict"
 let fs = require("fs");
+let mapData = Symbol();
 class Board {
     constructor(name) {
-        this.map = this.importMap(name);
+        this[mapData] = this.importMap(name);
+    }
+
+    get board() {
+        return this[mapData]; // for tests
+    }
+    territory(id) {
+        return this[mapData].territories[id];
+    }
+    continent(id) {
+        return this[mapData].continents[id];
     }
 
     importMap(name) {
@@ -12,27 +23,35 @@ class Board {
     }
 
     verifyAttack(from, to) {
-        return this.map.territories[from]['attack'].indexOf(to) !== -1;
+        return this[mapData].territories[from]['attack'].indexOf(to) !== -1;
     }
     verifyFortify(from, to) {
-        return this.map.territories[from]['fortify'].indexOf(to) !== -1;
+        return this[mapData].territories[from]['fortify'].indexOf(to) !== -1;
     }
 
-    getContinent(territory) {
-        for(var i = 0; i <= this.map.continents.length; i++) {
-            if(this.map.continents[i]['territories'].indexOf(territory) !== -1) {
+    getContinentFromTerritory(territory) {
+        for(var i = 0; i <= this[mapData].continents.length; i++) {
+            if(this[mapData].continents[i]['territories'].indexOf(territory) !== -1) {
                 return i;
             }
         }
         return null;
     }
 
-    getTerritories(continent) {
-        return this.map.continents[continent]['territories'];
+    getTerritoriesOfContinent(continent) {
+        return this[mapData].continents[continent]['territories'];
+    }
+
+    attackTerritories(from) {
+        return this[mapData].territories[from]['attack'];
+    }
+
+    fortifyTerritories(from) {
+        return this[mapData].territories[from]['fortify'];
     }
 
     containsAllTerritories(territories, continent) {
-            return territories.sort().toString() == this.map.continents[continent]['territories'].sort().toString();
+            return territories.sort().toString() == this[mapData].continents[continent]['territories'].sort().toString();
     }
 
 
