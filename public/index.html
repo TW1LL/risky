@@ -5,14 +5,20 @@
     </head>
     <body>
         <div class="nav">Hello RiskY world!</div>
+        <span id="username"></span>
         <script src="/socket.io/socket.io.js"></script>
         <script>
-          var socket = io();
+            var socket = io();
 
-          socket.on('connect', function() {
-                console.log(socket);
-
-          });
+            socket.on('connect', function() {
+                let user_id = localStorage.getItem("user_id");
+                socket.emit('identify user', user_id);
+            });
+            socket.on('userData', function(data) {
+                localStorage.setItem("user_id", data.id);
+                localStorage.setItem("userData", data);
+                console.log(data);
+            });
         </script>
     </body>
 <html>

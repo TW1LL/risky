@@ -16,13 +16,13 @@ describe('User', function() {
                     let Server = require('mock-socket.io').Server;
                     let io = new Server();
                     let Client = require('mock-socket.io').Client;
-                    let ioC = new Client();
+                    let ioC = new Client(io);
                     io.on('connection', function(socket) {
                         usr = new User(socket);
                         assert.isTrue(usr.socket.hasOwnProperty('nsp'));
                         assert.isTrue(usr.socket.hasOwnProperty('connected'));
-                        assert.isTrue(usr.socket.connected == true);
-                        assert.isTrue(usr.socket.id == "/#"+ ioC.id);
+                        assert.isTrue(usr.socket.connected);
+                        assert.isEqual(usr.socket.id, "/#"+ ioC.id);
                     });
                 });
             });

@@ -42,4 +42,42 @@ describe("Game", function() {
             assert.isTrue(fortify);
         });
     });
+    describe('#addPlayer(user)',function() {
+        let User = require('../app/user.js').User;
+        let game = new Game('default', 4);
+        let Server = require('mock-socket.io').Server;
+        let io = new Server();
+        let Client = require('mock-socket.io').Client;
+        let ioC = new Client(io);
+        io.on('connection', function(socket) {
+            let usr = new User(socket);
+            usr.setGameId(game.id, game.addPlayer(usr));
+            it('adds player to game', function() {
+                assert.equal(game.players[0].id,usr.id);
+            });
+            it('returns the players game_id', function() {
+                assert.equal(0, usr.getGameId(game.id));
+            });
+        });
+    });
+    describe('#removePlayer(id)',function() {
+        let User = require('../app/user.js').User;
+        let game = new Game('default', 4);
+        let Server = require('mock-socket.io').Server;
+        let io = new Server();
+        let Client = require('mock-socket.io').Client;
+        let ioC = new Client(io);
+        let ioc2 = new Client(io);
+        io.on('connection', function(socket) {
+            let usr = new User(socket);
+            usr.setGameId(game, game.addPlayer(usr));
+        });
+        game.removePlayer(0);
+        it('makes the index of the player equal to undefined', function() {
+            assert.equal(undefined, game.players[0]);
+        });
+        it('keeps other player positions intact', function() {
+            assert.notEqual(undefined, game.players[1]);
+        });
+    });
 });
