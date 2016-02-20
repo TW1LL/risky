@@ -1,6 +1,6 @@
 "use strict"
 let fs = require("fs");
-let mapData = Symbol();
+let mapData = Symbol('mapdata');
 class Board {
     constructor(name) {
         this[mapData] = this.importMap(name);
