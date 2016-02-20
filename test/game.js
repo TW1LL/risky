@@ -43,6 +43,7 @@ describe("Game", function() {
         });
     });
     describe('#addPlayer(user)',function() {
+        this.timeout(0);
         let User = require('../app/user.js').User;
         let game = new Game('default', 4);
         let Server = require('mock-socket.io').Server;
@@ -52,11 +53,11 @@ describe("Game", function() {
         io.on('connection', function(socket) {
             let usr = new User(socket);
             usr.setGameId(game.id, game.addPlayer(usr));
-            it('adds player to game', function() {
-                assert.equal(game.players[0].id,usr.id);
+            it('adds player to game', function(done1) {
+                if(game.players[0].id == usr.id) done1();
             });
-            it('returns the players game_id', function() {
-                assert.equal(0, usr.getGameId(game.id));
+            it('returns the players game_id', function(done2) {
+                if(0 == usr.getGameId(game.id)) done2();
             });
         });
     });
@@ -86,40 +87,35 @@ describe("Game", function() {
         let Server = require('mock-socket.io').Server;
         let io = new Server();
         let users = {};
-        io.on('connection', function(socket) {
-            socket.on('identify user', function(data) {
-                console.log(socket.id, data);
-                if (data == null || users[data] == undefined) {
-                    data = socket.id;
-                    users[data] = new User(socket);
-                } else {
-                    users[data].socket = socket;
-                }
-                socket.emit('userData', users[data].userData);
-                users[data].setGameId(game, game.addPlayer(users[data]));
+        it('ensures the userid stays the same even when we change user objects ', function(done) {
+            io.on('connection', function(socket) {
+                socket.on('identify user', function(data) {
+                    if (data == null || users[data] == undefined) {
+                        data = socket.id;
+                        users[data] = new User(socket);
+                    } else {
+                        users[data].socket = socket;
+                    }
+                    socket.emit('userData', users[data].userData);
+                    users[data].setGameId(game, game.addPlayer(users[data]));
+                });
             });
-        });
-        let Client = require('mock-socket.io').Client;
-        let ioC = new Client(io);
-        let userid = null;
-        ioC.on('connect', function(){
-            console.log('user 1 connect');
-            ioC.emit('identify user', userid);
-        });
-        ioC.on('userData', function(data){
-            console.log('user 1 get userid');
-            userid = data.id;
-        });
-        let ioc2 = new Client(io);
-        ioc2.on('connect', function(){
-            console.log('user 2 connect');
-            ioC = null;
-            ioc2.emit('identify user', userid);
-        });
-        ioc2.on('userData', function(data){
-            console.log('user 2 get userid');
-            it('ensures the userid stays the same even when we change user objects ', function() {
-                assert.equal(data.id, userid);
+            let Client = require('mock-socket.io').Client;
+            let ioC = new Client(io);
+            let userid = null;
+            ioC.on('connect', function(){
+                ioC.emit('identify user', userid);
+            });
+            ioC.on('userData', function(data){
+                userid = data.id;
+            });
+            let ioc2 = new Client(io);
+            ioc2.on('connect', function(){
+                ioC = null;
+                ioc2.emit('identify user', userid);
+            });
+            ioc2.on('userData', function(data){
+                if (data.id == userid) done();
             });
         });
 
