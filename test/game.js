@@ -88,7 +88,7 @@ describe("Game", function() {
         let users = {};
         io.on('connection', function(socket) {
             socket.on('identify user', function(data) {
-                console.log(data);
+                console.log(socket.id, data);
                 if (data == null || users[data] == undefined) {
                     data = socket.id;
                     users[data] = new User(socket);
@@ -116,7 +116,7 @@ describe("Game", function() {
             ioC = null;
             ioc2.emit('identify user', userid);
         });
-        ioc2.on('userdata', function(data){
+        ioc2.on('userData', function(data){
             console.log('user 2 get userid');
             it('ensures the userid stays the same even when we change user objects ', function() {
                 assert.equal(data.id, userid);
