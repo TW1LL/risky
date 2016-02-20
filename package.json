@@ -4,8 +4,8 @@
 	"description": "A nodejs/angularjs interpretation of the Hasbro game Risk",
 	"main": "server.js",
 	"scripts": {
-		"test": "server.js debug",
-		"start": "node server.js"
+		"test": "mocha -w",
+		"start": "node server.js run"
 	},
 	"repository": {
 		"type": "git",
