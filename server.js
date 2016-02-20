@@ -33,8 +33,6 @@ function run(port) {
     });
 }
 
-run();
-
 
 exports.connection = connection;
 exports.users = users;

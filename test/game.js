@@ -80,4 +80,48 @@ describe("Game", function() {
             assert.notEqual(undefined, game.players[1]);
         });
     });
+    describe('#updatePlayer(user)', function() {
+        let User = require('../app/user.js').User;
+        let game = new Game('default', 4);
+        let Server = require('mock-socket.io').Server;
+        let io = new Server();
+        let users = {};
+        io.on('connection', function(socket) {
+            socket.on('identify user', function(data) {
+                console.log(data);
+                if (data == null || users[data] == undefined) {
+                    data = socket.id;
+                    users[data] = new User(socket);
+                } else {
+                    users[data].socket = socket;
+                }
+                socket.emit('userData', users[data].userData);
+                users[data].setGameId(game, game.addPlayer(users[data]));
+            });
+        });
+        let Client = require('mock-socket.io').Client;
+        let ioC = new Client(io);
+        let userid = null;
+        ioC.on('connect', function(){
+            console.log('user 1 connect');
+            ioC.emit('identify user', userid);
+        });
+        ioC.on('userData', function(data){
+            console.log('user 1 get userid');
+            userid = data.id;
+        });
+        let ioc2 = new Client(io);
+        ioc2.on('connect', function(){
+            console.log('user 2 connect');
+            ioC = null;
+            ioc2.emit('identify user', userid);
+        });
+        ioc2.on('userdata', function(data){
+            console.log('user 2 get userid');
+            it('ensures the userid stays the same even when we change user objects ', function() {
+                assert.equal(data.id, userid);
+            });
+        });
+
+    });
 });
