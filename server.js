@@ -3,16 +3,17 @@ let express = require('express');
 let app = express();
 let http = require('http').Server(app);
 let io = require('socket.io')(http);
-class Server {
+let User = require('./app/user').User;
+app.use('/', express.static('public'));
+class Server{
     constructor(port) {
         this.userList = {};
         this.gameList = {};
+        this.port = 3000;
     }
     run(port) {
-        this.port = (typeof port == "undefined") ? 3000 : this.port;
-        http.listen(this.port, function () {
-          console.log('Risk socket/REST server running on port ' + this.port);
-        });
+        this.port = (port) ? port : 3000;
+        http.listen(this.port, () => console.log('Risk socket/REST server running on port ' + this.port));
     }
     get users() {
         return this.userList;
@@ -36,20 +37,45 @@ class Server {
         this.gameList[id] = game;
     }
 }
-let server = new Server();
-let connection = require('./app/events').connection;
-io.on('connection', connection);
+module.exports = new Server();
+io.on('connection', events);
 
-app.use('/', express.static('public'));
+
 
 
 if(process.argv[2] !== undefined) {
     let args = process.argv[2];
-    eval(process.argv[2] + "();");
+    eval("module.exports." + process.argv[2] + "();");
 }
 
-function run(port) {
-    server.run(port);
-}
 
-exports.server = server;
+
+function events(socket) {
+        socket.on('user:identify', function(userId) {
+            if (userId == null || module.exports.users[userId] == undefined) {
+                userId = socket.id;
+                module.exports.updateUser(userId, new User(socket));
+            } else {
+                let user = module.exports.getUser(userId);
+                user.socket = socket;
+                module.exports.updateUser(userId, user);
+            }
+            socket.emit('user:data', module.exports.users[userId].data);
+        });
+
+        socket.on('list:games', function(userId) {
+            socket.emit('list:games', module.exports.users[userId].currentGames);
+        });
+
+        socket.on('list:users', function() {
+            let listusers = [];
+            for(var i = 0; i < users.length; i ++) {
+                listusers = module.exports.users[i].data;
+            }
+            socket.emit('list:games', listusers);
+        });
+
+        socket.on('game:data', function() {});
+
+
+}
