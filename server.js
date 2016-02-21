@@ -3,9 +3,6 @@ let express = require('express');
 let app = express();
 let http = require('http').Server(app);
 let io = require('socket.io')(http);
-let User = require('./app/user').User;
-let connection = require('./app/events').connection;
-let server = null;
 class Server {
     constructor(port) {
         this.userList = {};
@@ -39,7 +36,8 @@ class Server {
         this.gameList[id] = game;
     }
 }
-server = new Server();
+let server = new Server();
+let connection = require('./app/events').connection;
 io.on('connection', connection);
 
 app.use('/', express.static('public'));

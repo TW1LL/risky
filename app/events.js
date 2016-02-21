@@ -1,5 +1,5 @@
 "use strict"
-
+let User = require('./user').User;
 let server = require('../server').server;
 console.log(server);
 function events(socket) {
