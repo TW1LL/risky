@@ -51,31 +51,40 @@ if(process.argv[2] !== undefined) {
 
 
 function events(socket) {
-        socket.on('user:identify', function(userId) {
-            if (userId == null || module.exports.users[userId] == undefined) {
-                userId = socket.id;
-                module.exports.updateUser(userId, new User(socket));
-            } else {
-                let user = module.exports.getUser(userId);
-                user.socket = socket;
-                module.exports.updateUser(userId, user);
-            }
-            socket.emit('user:data', module.exports.users[userId].data);
-        });
+    let userId = null;
+    listUsers();
+    socket.on('user:identify', function(userId) {
+        if (userId == null || module.exports.users[userId] == undefined) {
+            this.userId = socket.id;
+            module.exports.updateUser(this.userId, new User(socket));
+        } else {
+            this.userId = userId;
+            let user = module.exports.getUser(userId);
+            user.socket = socket;
+            module.exports.updateUser(this.userId, user);
+        }
+        socket.emit('user:data', module.exports.users[this.userId].data);
+    });
 
-        socket.on('list:games', function(userId) {
-            socket.emit('list:games', module.exports.users[userId].currentGames);
-        });
+    socket.on('list:games', function(userId) {
+        socket.emit('list:games', module.exports.users[userId].currentGames);
+    });
 
-        socket.on('list:users', function() {
-            let listusers = [];
-            for(var i = 0; i < users.length; i ++) {
-                listusers = module.exports.users[i].data;
-            }
-            socket.emit('list:games', listusers);
-        });
+    socket.on('list:users', listUsers);
 
-        socket.on('game:data', function() {});
+    socket.on('game:data', function() {});
 
+    socket.on('user:set', function(data) {
+        module.exports.users[this.userId][data[0]] = data[1];
+        io.emit('user:update', module.exports.users[this.userId].data);
+    });
+
+    function listUsers() {
+        let listusers = [];
+        for(var i = 0; i < module.exports.users.length; i ++) {
+            listusers = module.exports.users[i].data;
+        }
+        socket.emit('list:users', listusers);
+    }
 
 }
