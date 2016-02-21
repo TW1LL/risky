@@ -89,14 +89,14 @@ describe("Game", function() {
         let users = {};
         it('ensures the userid stays the same even when we change user objects ', function(done) {
             io.on('connection', function(socket) {
-                socket.on('identify user', function(data) {
+                socket.on('user:identify', function(data) {
                     if (data == null || users[data] == undefined) {
                         data = socket.id;
                         users[data] = new User(socket);
                     } else {
                         users[data].socket = socket;
                     }
-                    socket.emit('userData', users[data].userData);
+                    socket.emit('user:data', users[data].data);
                     users[data].setGameId(game, game.addPlayer(users[data]));
                 });
             });
@@ -104,17 +104,17 @@ describe("Game", function() {
             let ioC = new Client(io);
             let userid = null;
             ioC.on('connect', function(){
-                ioC.emit('identify user', userid);
+                ioC.emit('user:identify', userid);
             });
-            ioC.on('userData', function(data){
+            ioC.on('user:data', function(data){
                 userid = data.id;
             });
             let ioc2 = new Client(io);
             ioc2.on('connect', function(){
                 ioC = null;
-                ioc2.emit('identify user', userid);
+                ioc2.emit('user:identify', userid);
             });
-            ioc2.on('userData', function(data){
+            ioc2.on('user:data', function(data){
                 if (data.id == userid) done();
             });
         });

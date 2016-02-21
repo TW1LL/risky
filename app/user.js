@@ -22,9 +22,10 @@ class User {
     }
     set socket(sock) {
         this.socketio = sock;
-        let games = this.currentGames;
-        for(var i = 0; i < games.length; i++) {
-            games[i].updatePlayer(this);
+        let games = require('../server').games;
+        let current = this.currentGames;
+        for(var i = 0; i < current.length; i++) {
+            games[current[i]].updatePlayer(this);
         }
     }
     getGameId(game) {
@@ -52,7 +53,7 @@ class User {
         this.games_id[game] = id;
     }
 
-    get userData() {
+    get data() {
         return {
             type: this.type,
             nick: this.nick,
